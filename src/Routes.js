@@ -7,6 +7,7 @@ import {
 import BeerList from "./Pages/BeerList";
 import Home from "./Pages/Home";
 import Main from "./Pages/Main";
+import 'antd/dist/antd.css';
 // import ReactGA from "react-ga";
 
 const Routes = () => {
