@@ -1,9 +1,11 @@
 import React from 'react'
 import { Steps } from 'antd';
 import styled from "styled-components";
+import { useHistory } from 'react-router-dom';
 
 const Home = () => {
   const { Step } = Steps;
+  const history = useHistory();
   const HomeContainer = styled.div`
     margin: 0;
     padding: 50px;
@@ -21,6 +23,22 @@ const Home = () => {
     font-size: 40px;
     text-align: center;
   `;
+  const Button = styled.button`
+        position: absolute;
+        top: 50%;
+        left: calc(50% - 50px);
+        color: #218380;
+        background-color: #FFBC42;
+        width: 100px;
+        height: 100px;
+        border: none;
+        border-radius: 50%;
+        font-size: 35px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 300ms ease;
+        &:hover { transform: scale(1.05); }
+    `;
 
   return (
     <HomeContainer>
@@ -33,6 +51,7 @@ const Home = () => {
         Welcome to Beer World<br />
         You can look around various kinds of Beers
       </Main>
+      <Button onClick={() => {history.push('/beerList')}}>🍺</Button>
 
     </HomeContainer>
   )

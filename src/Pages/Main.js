@@ -7,7 +7,7 @@ const Main = () => {
     const Button = styled.button`
         position: absolute;
         top: 50%;
-        left: 50%;
+        left: calc(50% - 75px);
         color: #218380;
         background-color: #FFBC42;
         width: 150px;
