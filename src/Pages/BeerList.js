@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { Steps } from 'antd';
-import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import styled from "styled-components";
+import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import { connect } from 'react-redux';
 
 import Data from '../Data.json';
+import infoModal from './infoModal';
 
 const BeerList = (props) => {
+    const [modal, setModal] = useState(false);
     const { Step } = Steps;
     const ListContainer = styled.div`
         margin: 0;
         padding: 50px;
         box-sizing: border-box;
-        width: 100vw;
+        width: 100%;
         height: 100vh;
     `;
     const Tables = styled(Table)`
@@ -51,7 +53,10 @@ const BeerList = (props) => {
                             <TableRow key={i}>
                                 <TableCell align="left"> {i+1} </TableCell>
                                 <TableCell align="left"> <Img src={a.image_url} /> </TableCell>
-                                <TableCell align="left"> {a.name} </TableCell>
+                                <TableCell align="left">
+                                    <span style={{ "cursor": "pointer" }}
+                                        onClick={() => {setModal(true)}}>{a.name}</span>
+                                </TableCell>
                                 <TableCell align="left"> {a.first_brewed} </TableCell>
                                 <TableCell align="left">
                                     <TableRow>
@@ -72,8 +77,13 @@ const BeerList = (props) => {
                             </TableRow>
                         )
                     })}
-                </TableBody>
+                 </TableBody>
             </Tables>
+            {
+                 modal === true
+                ? <infoModal setModal={setModal}/>
+                : null
+            }
         </ListContainer>
     );
 };
