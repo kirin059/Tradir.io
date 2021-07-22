@@ -26,21 +26,23 @@ enableES5();
 
 
 
-
+const initState = [];
 
 const loadItem = async () => {
   try {
     const res = await axios.get("https://api.punkapi.com/v2/beers");
-      console.log(items.data)       // Array(25)
-      dispatch({ type: "SUCCESS", data: res.data })
+     // dispatch({ type: "SUCCESS", data: res.data })
+    initState.push(...res.data);
+    console.log(initState)
   }
   catch {
     console.log('error')
   }
 };
 loadItem()
+console.log(initState)
 
-function reducer (state = [], action) {
+function reducer (state = initState, action) {
     switch(action.type) {
       case "SUCCESS":
         return action.data;
