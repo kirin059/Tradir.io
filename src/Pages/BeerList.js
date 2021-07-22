@@ -41,21 +41,37 @@ const BeerList = (props) => {
                     <TableCell>No.</TableCell>
                     <TableCell>Image</TableCell>
                     <TableCell>Name</TableCell>
-                    <TableCell>Tag Line</TableCell>
+                    <TableCell>First Brewed</TableCell>
                     <TableCell>Info</TableCell>
                 </TableRow>
                 </TableHead>
                 <TableBody>
                     {beer.map((a,i) => {
-                    return (
-                        <TableRow key={i}>
-                            <TableCell align="left"> {i+1} </TableCell>
-                            <TableCell align="left"> <Img src={a.image_url} /> </TableCell>
-                            <TableCell align="left"> {a.name} </TableCell>
-                            <TableCell align="left"> {a.tagline} </TableCell>
-                            <TableCell align="left"> {a.info} </TableCell>
-                        </TableRow>
-                    )})}
+                        return (
+                            <TableRow key={i}>
+                                <TableCell align="left"> {i+1} </TableCell>
+                                <TableCell align="left"> <Img src={a.image_url} /> </TableCell>
+                                <TableCell align="left"> {a.name} </TableCell>
+                                <TableCell align="left"> {a.first_brewed} </TableCell>
+                                <TableCell align="left">
+                                    <TableRow>
+                                        <TableCell align="center">ABV</TableCell>
+                                        <TableCell align="center">IBU</TableCell>
+                                        <TableCell align="center">EBC</TableCell>
+                                        <TableCell align="center">PH</TableCell>
+                                        <TableCell align="center">Attenuation Level</TableCell>
+                                    </TableRow>
+                                    <TableBody>
+                                        <TableCell align="center">{a.abv}</TableCell>
+                                        <TableCell align="center">{a.ibu}</TableCell>
+                                        <TableCell align="center">{a.ebc}</TableCell>
+                                        <TableCell align="center">{a.ph}</TableCell>
+                                        <TableCell align="center">{a.attenuation_level}</TableCell>
+                                    </TableBody>
+                                </TableCell>
+                            </TableRow>
+                        )
+                    })}
                 </TableBody>
             </Tables>
         </ListContainer>
