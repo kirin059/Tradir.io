@@ -46,7 +46,7 @@ const infoModal = (props) => {
             <Content>
                 {beer[0].name}
                 <Left>
-                    <div>{beer[beer.id].image_url}</div>
+                    <div>{beer.image_url}</div>
                     <div>{beer.id}. {beer.name}</div>
                     <div>{beer.tagline}</div>
                     <div>{beer.description}</div>

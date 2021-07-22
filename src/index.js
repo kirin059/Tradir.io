@@ -7,9 +7,8 @@ import { rootSaga } from "./Modules";
 import createSagaMiddleware from "redux-saga";
 import { createStore, applyMiddleware, compose } from "redux";
 
-const sagaMiddleware = createSagaMiddleware();   // 미들웨어생성
+const sagaMiddleware = createSagaMiddleware(); 
 
-//스토어 생성(루트리듀서와 미들웨어 연결)
 export const store = createStore(
   rootReducer,
   compose(

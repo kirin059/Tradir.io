@@ -25,8 +25,6 @@ const BeerList = (props) => {
 
     const [modal, setModal] = useState(false);
     const [beer, setBeer] = useState(Data);
-    console.log(beer)
-    console.log(modal)
 
     console.log(props.state)
      return (
