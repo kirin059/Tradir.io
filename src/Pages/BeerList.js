@@ -2,8 +2,9 @@ import React from 'react';
 import { Steps } from 'antd';
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import styled from "styled-components";
+import { connect } from 'react-redux';
 
-const BeerList = () => {
+const BeerList = (props) => {
     const { Step } = Steps;
     const ListContainer = styled.div`
         margin: 0;
@@ -16,7 +17,8 @@ const BeerList = () => {
         margin-top: 100px;
     `;
 
-    return (
+    console.log(props.state)
+     return (
         <ListContainer>
             <Steps current={1}>
                 <Step title="welcome" />
@@ -50,7 +52,13 @@ const BeerList = () => {
     );
 };
 
-export default BeerList;
+
+function beerProps(state) {
+    return {
+        state: state.reducer,
+    }
+}
+export default connect(beerProps)(BeerList);
 
 // Create a table for the list of Beers
 // When a beer name is clicked on, a modal should appear

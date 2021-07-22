@@ -5,33 +5,54 @@ import axios from 'axios'
 // import loading from "./loading";
 import { enableES5 } from "immer";
 
+
 enableES5();
 
+let beer
 
-
-// axios 로 데이터 받아오기
+//axios 로 데이터 받아오기
 const loadItem = async () => {
   const items = await axios.get("https://api.punkapi.com/v2/beers")
     .then(res => {
       //console.log(res.data)
-      return res.data;
+      beer = res.data;
+      return res.data
     })
     .catch(() => {
       console.log('error')
     });
-  return [items]
+  console.log(items)
+  return items
 };
-const beer = loadItem();
+loadItem()
+console.log(beer)
 
-function reducer(state = beer, action) {
+// let beer;
+// function loadItem() {
+//   return fetch("https://api.punkapi.com/v2/beers", {
+//     method: 'GET',
+//   })
+//     .then(function (response) {
+//       return response.json();
+//     })
+//     .then(function (data) {
+//       let info = JSON.parse(data);
+//       console.log(info);
+//       beer = info;
+//       return info
+//   })
+// }
+// loadItem()
+// console.log(await loadItem)
+
+
+
+function reducer(state=loadItem(), action) {
   return state
 }
 
-
-
-// 리듀서 생성
 const rootReducer = combineReducers({
-  // 리듀서 넣기
+  reducer
 });
 
 // export default rootReducer;
