@@ -3,12 +3,10 @@ import { Steps } from 'antd';
 import styled from "styled-components";
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import { connect } from 'react-redux';
-
 import Data from '../Data.json';
-import infoModal from './infoModal';
+import InfoModal from './infoModal';
 
 const BeerList = (props) => {
-    const [modal, setModal] = useState(false);
     const { Step } = Steps;
     const ListContainer = styled.div`
         margin: 0;
@@ -20,14 +18,15 @@ const BeerList = (props) => {
     const Tables = styled(Table)`
         margin-top: 100px;
     `;
-
     const Img = styled.img`
         width: 50px;
         height: 50px;
     `;
 
+    const [modal, setModal] = useState(false);
     const [beer, setBeer] = useState(Data);
     console.log(beer)
+    console.log(modal)
 
     console.log(props.state)
      return (
@@ -36,17 +35,23 @@ const BeerList = (props) => {
                 <Step title="welcome" />
                 <Step title="Beer List" />
                 <Step title="Shopping Basket" />
-            </Steps>
+             </Steps>
+             {
+                modal === true
+                ? <InfoModal setModal={ setModal } />
+                : null
+            }
             <Tables>
                 <TableHead>
-                <TableRow>
-                    <TableCell>No.</TableCell>
-                    <TableCell>Image</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>First Brewed</TableCell>
-                    <TableCell>Info</TableCell>
-                </TableRow>
+                    <TableRow>
+                        <TableCell>No.</TableCell>
+                        <TableCell>Image</TableCell>
+                        <TableCell>Name</TableCell>
+                        <TableCell>First Brewed</TableCell>
+                        <TableCell>Info</TableCell>
+                    </TableRow>
                 </TableHead>
+                
                 <TableBody>
                     {beer.map((a,i) => {
                         return (
@@ -55,7 +60,9 @@ const BeerList = (props) => {
                                 <TableCell align="left"> <Img src={a.image_url} /> </TableCell>
                                 <TableCell align="left">
                                     <span style={{ "cursor": "pointer" }}
-                                        onClick={() => {setModal(true)}}>{a.name}</span>
+                                        onClick={() => { setModal(true) }}
+                                        // dispatch (onclick도 리덕스로 보내기)
+                                    >{a.name}</span>
                                 </TableCell>
                                 <TableCell align="left"> {a.first_brewed} </TableCell>
                                 <TableCell align="left">
@@ -79,11 +86,6 @@ const BeerList = (props) => {
                     })}
                  </TableBody>
             </Tables>
-            {
-                 modal === true
-                ? <infoModal setModal={setModal}/>
-                : null
-            }
         </ListContainer>
     );
 };

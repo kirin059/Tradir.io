@@ -8,24 +8,58 @@ import { enableES5 } from "immer";
 
 enableES5();
 
-let beer
+const initState = []
 
-//axios 로 데이터 받아오기
 const loadItem = async () => {
-  const items = await axios.get("https://api.punkapi.com/v2/beers")
-    .then(res => {
-      //console.log(res.data)
-      beer = res.data;
-      return res.data
-    })
-    .catch(() => {
-      console.log('error')
-    });
-  console.log(items)
-  return items
+  try {
+      const items = await axios.get("https://api.punkapi.com/v2/beers")
+      console.log(items.data)       // Array(25)
+      dispatch({type: "UPDATE_DATA", data: items.data})
+  }
+  catch {
+    console.log('error')
+  }
 };
 loadItem()
-console.log(beer)
+console.log(initState)
+
+// const loadItem = async () => {
+//   const items = await axios.get("https://api.punkapi.com/v2/beers")
+//     .then((res) => {
+//       dispatch({ action: "UPDATE_DATA", data: res.data })
+//       console.log(data)
+//   })
+//     .catch(() => console.log('error'))
+//   return items
+// };
+// loadItem()
+// console.log(initState)
+
+function reducer(state=initState, action) {
+  switch(action.type) {
+    case "UPDATE_DATA":
+    console.log('action-type:', action.type, action.data[1])
+      { return action.data };
+    default: return state
+  }
+}
+
+//axios 로 데이터 받아오기
+// const loadItem = async () => {
+//   const items = await axios.get("https://api.punkapi.com/v2/beers")
+//     .then(res => {
+//       //console.log(res.data)
+//       beer = res.data;
+//       return res.data
+//     })
+//     .catch(() => {
+//       console.log('error')
+//     });
+//   console.log(items)
+//   return items
+// };
+// loadItem()
+// console.log(beer)
 
 // let beer;
 // function loadItem() {
@@ -46,10 +80,6 @@ console.log(beer)
 // console.log(await loadItem)
 
 
-
-function reducer(state=loadItem(), action) {
-  return state
-}
 
 const rootReducer = combineReducers({
   reducer

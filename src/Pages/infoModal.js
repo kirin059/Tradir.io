@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from "styled-components";
+import Data from '../Data.json';
 
 const infoModal = (props) => {
     const BackGround = styled.div`
@@ -28,13 +29,35 @@ const infoModal = (props) => {
         box-sizing: border-box;
         z-index: 999;
     `;
+    const Left = styled.div`
+        text-align: left;
+
+    `;
+    const Right = styled.div`
+        text-align: left;
+    `;
+
+    const [beer, setBeer] = useState(Data);
 
     return (
         <BackGround onClick={() => {
              props.setModal(false)
         }}>
             <Content>
-                {/* beer info */}
+                {beer[0].name}
+                <Left>
+                    <div>{beer[beer.id].image_url}</div>
+                    <div>{beer.id}. {beer.name}</div>
+                    <div>{beer.tagline}</div>
+                    <div>{beer.description}</div>
+                    <div>{beer.ibu}</div>
+                    <div>{beer.ph}</div>
+                    <div>{beer.attenuation_level}</div>
+                    
+                </Left>
+                <Right>
+                    <div></div>
+                </Right>
             </Content>
                 
         </BackGround>
