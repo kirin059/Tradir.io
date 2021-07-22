@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Steps } from 'antd';
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import styled from "styled-components";
 import { connect } from 'react-redux';
+
+import Data from '../Data.json';
 
 const BeerList = (props) => {
     const { Step } = Steps;
@@ -16,6 +18,14 @@ const BeerList = (props) => {
     const Tables = styled(Table)`
         margin-top: 100px;
     `;
+
+    const Img = styled.img`
+        width: 50px;
+        height: 50px;
+    `;
+
+    const [beer, setBeer] = useState(Data);
+    console.log(beer)
 
     console.log(props.state)
      return (
@@ -36,16 +46,16 @@ const BeerList = (props) => {
                 </TableRow>
                 </TableHead>
                 <TableBody>
-                {/* {beers.map(a => {
-                return 
-                <TableRow key={id}>
-                    <TableCell align="left"> {i+1} </TableCell>
-                    <TableCell align="left"> {a.img} </TableCell>
-                    <TableCell align="left"> {a.name} </TableCell>
-                    <TableCell align="left"> {a.tagline} </TableCell>
-                    <TableCell align="left"> {a.info} </TableCell>
-                </TableRow>
-                })} */}
+                    {beer.map((a,i) => {
+                    return (
+                        <TableRow key={i}>
+                            <TableCell align="left"> {i+1} </TableCell>
+                            <TableCell align="left"> <Img src={a.image_url} /> </TableCell>
+                            <TableCell align="left"> {a.name} </TableCell>
+                            <TableCell align="left"> {a.tagline} </TableCell>
+                            <TableCell align="left"> {a.info} </TableCell>
+                        </TableRow>
+                    )})}
                 </TableBody>
             </Tables>
         </ListContainer>
