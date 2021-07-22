@@ -3,7 +3,7 @@ import { Steps } from 'antd';
 import styled from "styled-components";
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import { connect } from 'react-redux';
-import Data from '../Data.json';
+//import Data from '../Data.json';
 import InfoModal from './infoModal';
 
 const BeerList = (props) => {
@@ -24,7 +24,7 @@ const BeerList = (props) => {
     `;
 
     const [modal, setModal] = useState(false);
-    const [beer, setBeer] = useState(Data);
+    //const [beer, setBeer] = useState(Data);
 
     console.log(props.state)
      return (
@@ -51,7 +51,7 @@ const BeerList = (props) => {
                 </TableHead>
                 
                 <TableBody>
-                    {beer.map((a,i) => {
+                    {props.state.map((a,i) => {
                         return (
                             <TableRow key={i}>
                                 <TableCell align="left"> {i+1} </TableCell>

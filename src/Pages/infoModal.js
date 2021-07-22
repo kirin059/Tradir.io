@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import styled from "styled-components";
-import Data from '../Data.json';
+import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 
 const infoModal = (props) => {
     const BackGround = styled.div`
@@ -17,7 +18,6 @@ const infoModal = (props) => {
         left: 50%;
         top: 50%;
         display: flex;
-        flex-direction: column;
         justify-content: center;
         width: 70%;
         height: 90%;
@@ -30,33 +30,112 @@ const infoModal = (props) => {
         z-index: 999;
     `;
     const Left = styled.div`
+        width: 40%;
         text-align: left;
 
     `;
     const Right = styled.div`
+        width: 50%;
         text-align: left;
     `;
 
-    const [beer, setBeer] = useState(Data);
+    const Img = styled.img`
+    width: 100px;
+    height: 100px;
+`;
+    const TableHeads = styled(TableHead)`
+        color: white;
+        background-color: #1890FF;
+    `;
 
     return (
         <BackGround onClick={() => {
              props.setModal(false)
         }}>
             <Content>
-                {beer[0].name}
                 <Left>
-                    <div>{beer.image_url}</div>
-                    <div>{beer.id}. {beer.name}</div>
-                    <div>{beer.tagline}</div>
-                    <div>{beer.description}</div>
-                    <div>{beer.ibu}</div>
-                    <div>{beer.ph}</div>
-                    <div>{beer.attenuation_level}</div>
-                    
+                    <div><Img src={props.state[0].image_url} /></div>
+                    <div>{props.state[0].id}. {props.state[0].name}</div>
+                    <div>tagline: {props.state[0].tagline}</div>
+                    <div>description: {props.state[0].description}</div>
+                    <div>ibu: {props.state[0].ibu}</div>
+                    <div>ph: {props.state[0].ph}</div>
+                    <div>attenuation level: {props.state[0].attenuation_level}</div>
                 </Left>
                 <Right>
-                    <div></div>
+                    <div><strong>ABV</strong>({props.state[0].abv}) :
+                        fg({props.state[0].target_fg}) / og({props.state[0].target_og})
+                    </div>
+                    <div><strong>EBC</strong>({props.state[0].ebc}) :
+                        srm({props.state[0].srm})
+                    </div>
+                    <div><strong>VOLUME</strong> :
+                        value({props.state[0].volume.value}) / unit({props.state[0].volume.unit})
+                    </div>
+                    <div><strong>BOIL VOLUME</strong> :
+                        boil value({props.state[0].boil_volume.value}) / unit({props.state[0].boil_volume.unit})
+                    </div>
+                    <div><strong>FOOD PAIRING</strong>: {props.state[0].food_pairing}</div>
+                    <div><strong>BREWERS TIPS</strong>: {props.state[0].brewers_tips}</div>
+                    <div>contributed by <strong>{props.state[0].contributed_by}</strong></div>
+                    <Table>
+                        <TableHeads>
+                            <TableRow>
+                                <TableCell colSpan={3} align="center">method</TableCell>
+                            </TableRow>
+                        </TableHeads>
+                        <TableBody>
+                            <TableCell align="left">
+                                <strong>MASH TAMP</strong> <br />
+                                temp(value) : {props.state[0].method.mash_temp[0].temp.value} <br />
+                                temp(unit) : {props.state[0].method.mash_temp[0].temp.unit} <br />
+                                duration : {props.state[0].method.mash_temp[0].duration}
+                            </TableCell>
+                            <TableCell align="left">
+                                <strong>FERMENTATION</strong> <br />
+                                temp(value) {props.state[0].method.fermentation.temp.value} <br />
+                                temp(unit) {props.state[0].method.fermentation.temp.unit}</TableCell>
+                            <TableCell align="center">
+                                <strong>TWIST</strong> <br />
+                                {props.state[0].method.twist}
+                            </TableCell>
+                        </TableBody>
+
+                        <TableHeads>
+                            <TableRow>
+                                <TableCell colSpan={3} align="center">ingredients</TableCell>
+                            </TableRow>
+                        </TableHeads>
+                        <TableBody>
+                            <TableCell align="center">
+                                <strong>MALT</strong> <br />
+                                {/* 반복문 적용하기*/}
+                                name : {props.state[0].ingredients.malt[0].name} <br />
+                                amount(value) : {props.state[0].ingredients.malt[0].amount.value} <br />
+                                amount(unit) : {props.state[0].ingredients.malt[0].amount.unit} <br />
+
+                                name : {props.state[0].ingredients.malt[0].name} <br />
+                                amount(value) : {props.state[0].ingredients.malt[1].amount.value} <br />
+                                amount(unit) : {props.state[0].ingredients.malt[1].amount.unit} <br />
+
+                                name : {props.state[0].ingredients.malt[0].name} <br />
+                                amount(value) : {props.state[0].ingredients.malt[2].amount.value} <br />
+                                amount(unit) : {props.state[0].ingredients.malt[2].amount.unit} <br />
+                            </TableCell>
+                            <TableCell align="center">
+                                <strong>HOPS</strong> <br />
+                                {/* 반복문 적용하기*/}
+                                name : {props.state[0].ingredients.hops[0].name} <br />
+                                amount(value) : {props.state[0].ingredients.hops[0].amount.value} <br />
+                                amount(unit) : {props.state[0].ingredients.hops[0].amount.unit} <br />
+                                add : {props.state[0].ingredients.hops[0].add} <br />
+                                attribute : {props.state[0].ingredients.hops[0].attribute} <br />
+                            </TableCell>
+                            <TableCell align="center">
+                                <strong>YEAST</strong>  <br />
+                                {props.state[0].ingredients.yeast}</TableCell>
+                        </TableBody>
+                    </Table>
                 </Right>
             </Content>
                 
@@ -65,6 +144,11 @@ const infoModal = (props) => {
     );
 };
 
-export default infoModal;
+function beerProps(state) {
+    return {
+        state: state.reducer,
+    }
+}
+export default connect(beerProps)(infoModal);
 
 // modal should appear containing all the info of the selected beer
