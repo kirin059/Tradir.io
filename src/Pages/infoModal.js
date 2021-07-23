@@ -47,41 +47,45 @@ const infoModal = (props) => {
         background-color: #1890FF;
     `;
 
-    const { id } = useParams();
-    const beer = props.state.find(function(a) {
-        return a.id == id;
-    });
-    console.log(pickBeer)
+    // const { id } = useParams();
+    // const beer = props.state.find(function(a) {
+    //     return a.id == id;
+    // });
+    // console.log(beer)
+    // console.log(props.state)
+    // console.log(id)
+    const beer = props.beer;
+    console.log(beer)
     return (
         <BackGround onClick={() => {
              props.setModal(false)
         }}>
             <Content>
                 <Left>
-                    <div><Img src={props.state[0].image_url} /></div>
-                    <div>{props.state[0].id}. {props.state[0].name}</div>
-                    <div>tagline: {props.state[0].tagline}</div>
-                    <div>description: {props.state[0].description}</div>
-                    <div>ibu: {props.state[0].ibu}</div>
-                    <div>ph: {props.state[0].ph}</div>
-                    <div>attenuation level: {props.state[0].attenuation_level}</div>
+                    <div><Img src={beer.image_url} /></div>
+                    <div>{beer.id}. {beer.name}</div>
+                    <div>tagline: {beer.tagline}</div>
+                    <div>description: {beer.description}</div>
+                    <div>ibu: {beer.ibu}</div>
+                    <div>ph: {beer.ph}</div>
+                    <div>attenuation level: {beer.attenuation_level}</div>
+                    <div><strong>ABV</strong>({beer.abv}) :
+                        fg({beer.target_fg}) / og({beer.target_og})
+                    </div>
+                    <div><strong>EBC</strong>({beer.ebc}) :
+                        srm({beer.srm})
+                    </div>
+                    {/* <div><strong>VOLUME</strong> :
+                        value({beer.volume.value}) / unit({beer.volume.unit})
+                    </div> */}
+                    {/* <div><strong>BOIL VOLUME</strong> :
+                        boil value({beer.boil_volume.value}) / unit({beer.boil_volume.unit})
+                    </div> */}
+                    <div><strong>FOOD PAIRING</strong>: {beer.food_pairing}</div>
+                    <div><strong>BREWERS TIPS</strong>: {beer.brewers_tips}</div>
+                    <div>contributed by <strong>{beer.contributed_by}</strong></div>
                 </Left>
                 <Right>
-                    <div><strong>ABV</strong>({props.state[0].abv}) :
-                        fg({props.state[0].target_fg}) / og({props.state[0].target_og})
-                    </div>
-                    <div><strong>EBC</strong>({props.state[0].ebc}) :
-                        srm({props.state[0].srm})
-                    </div>
-                    <div><strong>VOLUME</strong> :
-                        value({props.state[0].volume.value}) / unit({props.state[0].volume.unit})
-                    </div>
-                    <div><strong>BOIL VOLUME</strong> :
-                        boil value({props.state[0].boil_volume.value}) / unit({props.state[0].boil_volume.unit})
-                    </div>
-                    <div><strong>FOOD PAIRING</strong>: {props.state[0].food_pairing}</div>
-                    <div><strong>BREWERS TIPS</strong>: {props.state[0].brewers_tips}</div>
-                    <div>contributed by <strong>{props.state[0].contributed_by}</strong></div>
                     <Table>
                         <TableHeads>
                             <TableRow>
@@ -117,31 +121,31 @@ const infoModal = (props) => {
                                     props.state[0].ingredients.malt.map((a, i) => {
                                         return (
                                             <div key={i}>
-                                                <div>name : {a[i].name} </div>
-                                                <div>amount(value) : {a[i].amount.value}</div>
-                                                <div>amount(unit) : {a[i].amount.unit}</div>
+                                                <div>name : {props.state[0].ingredients.malt[i].name} </div>
+                                                <div>amount(value) : {props.state[0].ingredients.malt[i].amount.value}</div>
+                                                <div>amount(unit) : {props.state[0].ingredients.malt[i].amount.unit}</div>
                                             </div>
                                         )
                                     })
                                 };
                             </TableCell>
-                            <TableCell align="left">
+                            <TableCell align="left" width="40%">
                                 <div><strong>HOPS</strong></div>
                                 {
                                     props.state[0].ingredients.hops.map((a, i) => {
                                         return (
                                             <div key={i}>
-                                                <div>name : {a[i].name}</div>
-                                                <div>amount(value) : {a[i].amount.value}</div>
-                                                <div>amount(unit) : {a[i].amount.unit}</div>
-                                                <div>add : {a[i].add}</div>
-                                                <div>attribute : {a[i].attribute}</div>
+                                                <div>name : {props.state[0].ingredients.hops[i].name}</div>
+                                                <div>amount(value) : {props.state[0].ingredients.hops[i].amount.value}</div>
+                                                <div>amount(unit) : {props.state[0].ingredients.hops[i].amount.unit}</div>
+                                                <div>add : {props.state[0].ingredients.hops[i].add}</div>
+                                                <div>attribute : {props.state[0].ingredients.hops[i].attribute}</div>
                                             </div>
                                         )
                                     })
-                                };     
+                                }     
                             </TableCell>
-                            <TableCell align="center">
+                            <TableCell align="center" width="20%">
                                 <strong>YEAST</strong>  <br />
                                 {props.state[0].ingredients.yeast}</TableCell>
                         </TableBody>
@@ -156,6 +160,7 @@ const infoModal = (props) => {
 function beerProps(state) {
     return {
         state: state.reducer,
+        beer: state.reducer2
     }
 }
 export default connect(beerProps)(infoModal);

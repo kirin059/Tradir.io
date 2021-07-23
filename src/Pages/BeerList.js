@@ -44,10 +44,9 @@ const BeerList = (props) => {
                         <TableCell>First Brewed</TableCell>
                         <TableCell>Info</TableCell>
                     </TableRow>
-                </TableHead>
-                
+                </TableHead>            
                 <TableBody>
-                     {
+                    {
                          props.state.map((a, i) => {
                             return (
                                 <TableRow key={i}>
@@ -63,19 +62,23 @@ const BeerList = (props) => {
                                     </TableCell>
                                     <TableCell align="left"> {a.first_brewed} </TableCell>
                                     <TableCell align="left">
-                                        <TableRow>
-                                            <TableCell align="center">ABV</TableCell>
-                                            <TableCell align="center">IBU</TableCell>
-                                            <TableCell align="center">EBC</TableCell>
-                                            <TableCell align="center">PH</TableCell>
-                                            <TableCell align="center">Attenuation Level</TableCell>
-                                        </TableRow>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell align="center">ABV</TableCell>
+                                                <TableCell align="center">IBU</TableCell>
+                                                <TableCell align="center">EBC</TableCell>
+                                                <TableCell align="center">PH</TableCell>
+                                                <TableCell align="center">Attenuation Level</TableCell>
+                                            </TableRow>
+                                        </TableHead>
                                         <TableBody>
-                                            <TableCell align="center">{a.abv}</TableCell>
-                                            <TableCell align="center">{a.ibu}</TableCell>
-                                            <TableCell align="center">{a.ebc}</TableCell>
-                                            <TableCell align="center">{a.ph}</TableCell>
-                                            <TableCell align="center">{a.attenuation_level}</TableCell>
+                                            <TableRow>
+                                                <TableCell align="center">{a.abv}</TableCell>
+                                                <TableCell align="center">{a.ibu}</TableCell>
+                                                <TableCell align="center">{a.ebc}</TableCell>
+                                                <TableCell align="center">{a.ph}</TableCell>
+                                                <TableCell align="center">{a.attenuation_level}</TableCell>
+                                            </TableRow>
                                         </TableBody>
                                     </TableCell>
                                 </TableRow>
@@ -92,6 +95,7 @@ const BeerList = (props) => {
 function beerProps(state) {
     return {
         state: state.reducer,
+        beer: state.reducer2
     }
 }
 export default connect(beerProps)(BeerList);

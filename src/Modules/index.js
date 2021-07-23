@@ -32,29 +32,44 @@ const loadItem = async () => {
   try {
     const res = await axios.get("https://api.punkapi.com/v2/beers");
     initState.push(...res.data);
-    console.log(initState)
   }
   catch {
     console.log('error')
   }
 };
 loadItem()
-console.log(initState)
 
 function reducer (state = initState, action) {
     switch(action.type) {
-      case "OPEN": {
-        return action.payload;
-      }
+      // case "OPEN": {
+      //   return action.payload;
+      // }
       default:
         return state;
     }
 }
 
+function reducer2 (state = initState, action) {
+  switch(action.type) {
+    case "OPEN": {
+      const found = state.findIndex((a) => { return a.id === action.payload })
+      console.log(found)
+      if (found >= 0) {
+        const setBeer = [...state];
+        
+        return setBeer[found]
+      }
+      return action.payload;
+    }
+    default:
+      return state;
+  }
+}
+
 
 const rootReducer = combineReducers({
-  reducer
-});
+  reducer, reducer2
+})
 
 // export default rootReducer;
 export default rootReducer;
