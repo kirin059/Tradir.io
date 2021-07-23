@@ -31,7 +31,6 @@ const initState = [];
 const loadItem = async () => {
   try {
     const res = await axios.get("https://api.punkapi.com/v2/beers");
-     // dispatch({ type: "SUCCESS", data: res.data })
     initState.push(...res.data);
     console.log(initState)
   }
@@ -44,8 +43,9 @@ console.log(initState)
 
 function reducer (state = initState, action) {
     switch(action.type) {
-      case "SUCCESS":
-        return action.data;
+      case "OPEN": {
+        return action.payload;
+      }
       default:
         return state;
     }

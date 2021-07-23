@@ -3,7 +3,6 @@ import { Steps } from 'antd';
 import styled from "styled-components";
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import { connect } from 'react-redux';
-//import Data from '../Data.json';
 import InfoModal from './infoModal';
 
 const BeerList = (props) => {
@@ -22,19 +21,16 @@ const BeerList = (props) => {
         width: 50px;
         height: 50px;
     `;
-
     const [modal, setModal] = useState(false);
-    //const [beer, setBeer] = useState(Data);
 
-    console.log(props.state)
      return (
         <ListContainer>
             <Steps current={1}>
                 <Step title="welcome" />
                 <Step title="Beer List" />
                 <Step title="Shopping Basket" />
-             </Steps>
-             {
+            </Steps>
+            {
                 modal === true
                 ? <InfoModal setModal={ setModal } />
                 : null
@@ -51,37 +47,41 @@ const BeerList = (props) => {
                 </TableHead>
                 
                 <TableBody>
-                    {props.state.map((a,i) => {
-                        return (
-                            <TableRow key={i}>
-                                <TableCell align="left"> {i+1} </TableCell>
-                                <TableCell align="left"> <Img src={a.image_url} /> </TableCell>
-                                <TableCell align="left">
-                                    <span style={{ "cursor": "pointer" }}
-                                        onClick={() => { setModal(true) }}
-                                        // dispatch (onclick도 리덕스로 보내기)
-                                    >{a.name}</span>
-                                </TableCell>
-                                <TableCell align="left"> {a.first_brewed} </TableCell>
-                                <TableCell align="left">
-                                    <TableRow>
-                                        <TableCell align="center">ABV</TableCell>
-                                        <TableCell align="center">IBU</TableCell>
-                                        <TableCell align="center">EBC</TableCell>
-                                        <TableCell align="center">PH</TableCell>
-                                        <TableCell align="center">Attenuation Level</TableCell>
-                                    </TableRow>
-                                    <TableBody>
-                                        <TableCell align="center">{a.abv}</TableCell>
-                                        <TableCell align="center">{a.ibu}</TableCell>
-                                        <TableCell align="center">{a.ebc}</TableCell>
-                                        <TableCell align="center">{a.ph}</TableCell>
-                                        <TableCell align="center">{a.attenuation_level}</TableCell>
-                                    </TableBody>
-                                </TableCell>
-                            </TableRow>
-                        )
-                    })}
+                     {
+                         props.state.map((a, i) => {
+                            return (
+                                <TableRow key={i}>
+                                    <TableCell align="left"> {a.id} </TableCell>
+                                    <TableCell align="left"> <Img src={a.image_url} /> </TableCell>
+                                    <TableCell align="left">
+                                        <span style={{ "cursor": "pointer" }}
+                                            onClick={() => {
+                                                setModal(true)
+                                                props.dispatch({ type: 'OPEN', payload: a.id })
+                                            }}
+                                        >{a.name}</span>
+                                    </TableCell>
+                                    <TableCell align="left"> {a.first_brewed} </TableCell>
+                                    <TableCell align="left">
+                                        <TableRow>
+                                            <TableCell align="center">ABV</TableCell>
+                                            <TableCell align="center">IBU</TableCell>
+                                            <TableCell align="center">EBC</TableCell>
+                                            <TableCell align="center">PH</TableCell>
+                                            <TableCell align="center">Attenuation Level</TableCell>
+                                        </TableRow>
+                                        <TableBody>
+                                            <TableCell align="center">{a.abv}</TableCell>
+                                            <TableCell align="center">{a.ibu}</TableCell>
+                                            <TableCell align="center">{a.ebc}</TableCell>
+                                            <TableCell align="center">{a.ph}</TableCell>
+                                            <TableCell align="center">{a.attenuation_level}</TableCell>
+                                        </TableBody>
+                                    </TableCell>
+                                </TableRow>
+                            )
+                         })
+                     }
                  </TableBody>
             </Tables>
         </ListContainer>

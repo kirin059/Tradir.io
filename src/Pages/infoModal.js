@@ -38,16 +38,19 @@ const infoModal = (props) => {
         width: 50%;
         text-align: left;
     `;
-
     const Img = styled.img`
     width: 100px;
     height: 100px;
-`;
+    `;
     const TableHeads = styled(TableHead)`
         color: white;
         background-color: #1890FF;
     `;
 
+        // const pickBeer = props.state.find(function (a) {
+    //     return a.id == action.payload;
+    // });
+    //console.log(pickBeer)
     return (
         <BackGround onClick={() => {
              props.setModal(false)
@@ -135,8 +138,7 @@ const infoModal = (props) => {
                                             </div>
                                         )
                                     })
-                                }
-                                
+                                };     
                             </TableCell>
                             <TableCell align="center">
                                 <strong>YEAST</strong>  <br />
@@ -144,8 +146,7 @@ const infoModal = (props) => {
                         </TableBody>
                     </Table>
                 </Right>
-            </Content>
-                
+            </Content>   
         </BackGround>
 
     );
