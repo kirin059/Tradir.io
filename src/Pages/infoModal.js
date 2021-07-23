@@ -47,10 +47,11 @@ const infoModal = (props) => {
         background-color: #1890FF;
     `;
 
-        // const pickBeer = props.state.find(function (a) {
-    //     return a.id == action.payload;
-    // });
-    //console.log(pickBeer)
+    const { id } = useParams();
+    const beer = props.state.find(function(a) {
+        return a.id == id;
+    });
+    console.log(pickBeer)
     return (
         <BackGround onClick={() => {
              props.setModal(false)
