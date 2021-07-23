@@ -107,29 +107,36 @@ const infoModal = (props) => {
                             </TableRow>
                         </TableHeads>
                         <TableBody>
-                            <TableCell align="center">
-                                <strong>MALT</strong> <br />
-                                {/* 반복문 적용하기*/}
-                                name : {props.state[0].ingredients.malt[0].name} <br />
-                                amount(value) : {props.state[0].ingredients.malt[0].amount.value} <br />
-                                amount(unit) : {props.state[0].ingredients.malt[0].amount.unit} <br />
-
-                                name : {props.state[0].ingredients.malt[0].name} <br />
-                                amount(value) : {props.state[0].ingredients.malt[1].amount.value} <br />
-                                amount(unit) : {props.state[0].ingredients.malt[1].amount.unit} <br />
-
-                                name : {props.state[0].ingredients.malt[0].name} <br />
-                                amount(value) : {props.state[0].ingredients.malt[2].amount.value} <br />
-                                amount(unit) : {props.state[0].ingredients.malt[2].amount.unit} <br />
+                            <TableCell align="left">
+                                <div><strong>MALT</strong></div>
+                                {
+                                    props.state[0].ingredients.malt.map((a, i) => {
+                                        return (
+                                            <div key={i}>
+                                                <div>name : {a[i].name} </div>
+                                                <div>amount(value) : {a[i].amount.value}</div>
+                                                <div>amount(unit) : {a[i].amount.unit}</div>
+                                            </div>
+                                        )
+                                    })
+                                };
                             </TableCell>
-                            <TableCell align="center">
-                                <strong>HOPS</strong> <br />
-                                {/* 반복문 적용하기*/}
-                                name : {props.state[0].ingredients.hops[0].name} <br />
-                                amount(value) : {props.state[0].ingredients.hops[0].amount.value} <br />
-                                amount(unit) : {props.state[0].ingredients.hops[0].amount.unit} <br />
-                                add : {props.state[0].ingredients.hops[0].add} <br />
-                                attribute : {props.state[0].ingredients.hops[0].attribute} <br />
+                            <TableCell align="left">
+                                <div><strong>HOPS</strong></div>
+                                {
+                                    props.state[0].ingredients.hops.map((a, i) => {
+                                        return (
+                                            <div key={i}>
+                                                <div>name : {a[i].name}</div>
+                                                <div>amount(value) : {a[i].amount.value}</div>
+                                                <div>amount(unit) : {a[i].amount.unit}</div>
+                                                <div>add : {a[i].add}</div>
+                                                <div>attribute : {a[i].attribute}</div>
+                                            </div>
+                                        )
+                                    })
+                                }
+                                
                             </TableCell>
                             <TableCell align="center">
                                 <strong>YEAST</strong>  <br />
