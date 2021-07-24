@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Steps } from 'antd';
 import styled from "styled-components";
-//import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import { connect } from 'react-redux';
 import InfoModal from './infoModal';
-
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,9 +11,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
-
-
 
 const BeerList = (props) => {
     const { Step } = Steps;
@@ -38,8 +33,7 @@ const BeerList = (props) => {
         body: {
           fontSize: 14,
         },
-      }))(TableCell);
-      
+      }))(TableCell);    
       const StyledTableRow = withStyles((theme) => ({
         root: {
           '&:nth-of-type(odd)': {
@@ -47,11 +41,9 @@ const BeerList = (props) => {
           },
         },
       }))(TableRow);
-      
       function createData(id, img_url, name, first_brewed, description) {
         return { id, img_url, name, first_brewed, description };
-      }
-      
+      }   
       const useStyles = makeStyles({
         table: {
           minWidth: 700,
@@ -59,6 +51,7 @@ const BeerList = (props) => {
       });
     const [modal, setModal] = useState(false);
     const classes = useStyles();
+    
     return (
         <ListContainer>
             <Steps current={1} style={{marginBottom: '80px'}}>
@@ -107,7 +100,6 @@ const BeerList = (props) => {
         </ListContainer>
     );
 };
-
 
 function beerProps(state) {
     return {

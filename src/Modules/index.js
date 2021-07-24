@@ -55,8 +55,7 @@ function reducer2 (state = initState, action) {
       const found = initState.findIndex((a) => { return a.id === action.payload })
       console.log(found)
       if (found >= 0) {
-        const setBeer = [...initState];
-        
+        const setBeer = [...initState];  
         return setBeer[found]
       }
       return action.payload;

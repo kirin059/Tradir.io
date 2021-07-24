@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import styled from "styled-components";
-import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
+//import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
+
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
 
 const infoModal = (props) => {
     const BackGround = styled.div`
@@ -30,22 +40,23 @@ const infoModal = (props) => {
         z-index: 999;
     `;
     const Left = styled.div`
-        width: 40%;
+        width: 30%;
         text-align: left;
-
+        margin-right: 2%;
     `;
     const Right = styled.div`
-        width: 50%;
+        width: 60%;
         text-align: left;
     `;
     const Img = styled.img`
-    width: 100px;
-    height: 100px;
+        width: 50px;
+        height: 150px;
+        margin-bottom: 20px;
     `;
-    const TableHeads = styled(TableHead)`
-        color: white;
-        background-color: #1890FF;
-    `;
+    // const TableHeads = styled(TableHead)`
+    //     color: white;
+    //     background-color: #1890FF;
+    // `;
 
     // const { id } = useParams();
     // const beer = props.state.find(function(a) {
@@ -56,6 +67,43 @@ const infoModal = (props) => {
     // console.log(id)
     const beer = props.beer;
     console.log(beer)
+
+
+
+    
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+    const useStyles = makeStyles({
+        root: {
+          width: '100%',
+        },
+        container: {
+          maxHeight: 440,
+        },
+    });
+    const useStyle = makeStyles({
+        root: {
+            width: '100%',
+        },
+        container: {
+            marginTop: '2%',
+            maxHeight: 300,
+        },
+    });
+    const classes = useStyles();
+    const class1 = useStyle();
+    
+    
+    
     return (
         <BackGround onClick={() => {
              props.setModal(false)
@@ -63,93 +111,111 @@ const infoModal = (props) => {
             <Content>
                 <Left>
                     <div><Img src={beer.image_url} /></div>
-                    <div>{beer.id}. {beer.name}</div>
-                    <div>tagline: {beer.tagline}</div>
-                    <div>description: {beer.description}</div>
-                    <div>ibu: {beer.ibu}</div>
-                    <div>ph: {beer.ph}</div>
-                    <div>attenuation level: {beer.attenuation_level}</div>
+                    <strong>{beer.id}. {beer.name}</strong>
+                    <div><strong>Tagline</strong>: {beer.tagline}</div>
+                    <div><strong>Description</strong>: {beer.description}</div>
+                    <div><strong>IBU</strong>: {beer.ibu}</div>
+                    <div><strong>PH</strong>: {beer.ph}</div>
+                    <div><strong>Attenuation Level</strong>: {beer.attenuation_level}</div>
                     <div><strong>ABV</strong>({beer.abv}) :
                         fg({beer.target_fg}) / og({beer.target_og})
                     </div>
                     <div><strong>EBC</strong>({beer.ebc}) :
                         srm({beer.srm})
                     </div>
-                    {/* <div><strong>VOLUME</strong> :
-                        value({beer.volume.value}) / unit({beer.volume.unit})
-                    </div> */}
+                    <div><strong>VOLUME</strong> : value({beer.volume.value}) / unit({beer.volume.unit}) </div>
                     {/* <div><strong>BOIL VOLUME</strong> :
                         boil value({beer.boil_volume.value}) / unit({beer.boil_volume.unit})
                     </div> */}
                     <div><strong>FOOD PAIRING</strong>: {beer.food_pairing}</div>
-                    <div><strong>BREWERS TIPS</strong>: {beer.brewers_tips}</div>
-                    <div>contributed by <strong>{beer.contributed_by}</strong></div>
+                    <div><strong>BREWERS TIPS</strong>: {beer.brewers_tips}</div><br/>
+                    <em>contributed by {beer.contributed_by}</em>
                 </Left>
                 <Right>
-                    <Table>
-                        <TableHeads>
-                            <TableRow>
-                                <TableCell colSpan={3} align="center">method</TableCell>
-                            </TableRow>
-                        </TableHeads>
-                        <TableBody>
-                            <TableCell align="left">
-                                <strong>MASH TAMP</strong> <br />
-                                temp(value) : {props.state[0].method.mash_temp[0].temp.value} <br />
-                                temp(unit) : {props.state[0].method.mash_temp[0].temp.unit} <br />
-                                duration : {props.state[0].method.mash_temp[0].duration}
-                            </TableCell>
-                            <TableCell align="left">
-                                <strong>FERMENTATION</strong> <br />
-                                temp(value) {props.state[0].method.fermentation.temp.value} <br />
-                                temp(unit) {props.state[0].method.fermentation.temp.unit}</TableCell>
-                            <TableCell align="center">
-                                <strong>TWIST</strong> <br />
-                                {props.state[0].method.twist}
-                            </TableCell>
-                        </TableBody>
+                    <Paper className={classes.root}>
+                        <TableContainer className={classes.container}>
+                            <Table stickyHeader aria-label="sticky table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell colSpan={3} align="center">Ingredients</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="center">MALT</TableCell>
+                                        <TableCell align="center">HOPS</TableCell>
+                                        <TableCell align="center">YEAST</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableCell align="left"  width="40%">
+                                        {
+                                            props.state[0].ingredients.malt.map((a, i) => {
+                                                return (
+                                                    <div key={i}>
+                                                        <div>name : {props.state[0].ingredients.malt[i].name} </div>
+                                                        <div>amount(value) : {props.state[0].ingredients.malt[i].amount.value}</div>
+                                                        <div>amount(unit) : {props.state[0].ingredients.malt[i].amount.unit}</div><br/>
+                                                    </div>
+                                                )
+                                            })
+                                        };
+                                    </TableCell>
+                                    <TableCell align="left" width="40%">
+                                        {
+                                            props.state[0].ingredients.hops.map((a, i) => {
+                                                return (
+                                                    <div key={i}>
+                                                        <div>name : {props.state[0].ingredients.hops[i].name}</div>
+                                                        <div>amount(value) : {props.state[0].ingredients.hops[i].amount.value}</div>
+                                                        <div>amount(unit) : {props.state[0].ingredients.hops[i].amount.unit}</div>
+                                                        <div>add : {props.state[0].ingredients.hops[i].add}</div>
+                                                        <div>attribute : {props.state[0].ingredients.hops[i].attribute}</div><br/>
+                                                    </div>
+                                                )
+                                            })
+                                        }     
+                                    </TableCell>
+                                    <TableCell align="center" width="20%">
+                                        {props.state[0].ingredients.yeast}
+                                    </TableCell>
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Paper>
+                    <Paper className={class1.root}>
+                        <TableContainer className={class1.container}>
+                            <Table stickyHeader aria-label="sticky table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell colSpan={3} align="center">Method</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="center">MASH TAMP</TableCell>
+                                        <TableCell align="center">FERMENTATION</TableCell>
+                                        <TableCell align="center">TWIST</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableCell align="left">
 
-                        <TableHeads>
-                            <TableRow>
-                                <TableCell colSpan={3} align="center">ingredients</TableCell>
-                            </TableRow>
-                        </TableHeads>
-                        <TableBody>
-                            <TableCell align="left">
-                                <div><strong>MALT</strong></div>
-                                {
-                                    props.state[0].ingredients.malt.map((a, i) => {
-                                        return (
-                                            <div key={i}>
-                                                <div>name : {props.state[0].ingredients.malt[i].name} </div>
-                                                <div>amount(value) : {props.state[0].ingredients.malt[i].amount.value}</div>
-                                                <div>amount(unit) : {props.state[0].ingredients.malt[i].amount.unit}</div>
-                                            </div>
-                                        )
-                                    })
-                                };
-                            </TableCell>
-                            <TableCell align="left" width="40%">
-                                <div><strong>HOPS</strong></div>
-                                {
-                                    props.state[0].ingredients.hops.map((a, i) => {
-                                        return (
-                                            <div key={i}>
-                                                <div>name : {props.state[0].ingredients.hops[i].name}</div>
-                                                <div>amount(value) : {props.state[0].ingredients.hops[i].amount.value}</div>
-                                                <div>amount(unit) : {props.state[0].ingredients.hops[i].amount.unit}</div>
-                                                <div>add : {props.state[0].ingredients.hops[i].add}</div>
-                                                <div>attribute : {props.state[0].ingredients.hops[i].attribute}</div>
-                                            </div>
-                                        )
-                                    })
-                                }     
-                            </TableCell>
-                            <TableCell align="center" width="20%">
-                                <strong>YEAST</strong>  <br />
-                                {props.state[0].ingredients.yeast}</TableCell>
-                        </TableBody>
-                    </Table>
+                                        <div>temp(value) : {props.state[0].method.mash_temp[0].temp.value}</div>
+                                        <div>temp(unit) : {props.state[0].method.mash_temp[0].temp.unit}</div>
+                                        <div>duration : {props.state[0].method.mash_temp[0].duration}</div>
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        <div>temp(value) {props.state[0].method.fermentation.temp.value}</div> 
+                                        <div>temp(unit) {props.state[0].method.fermentation.temp.unit}</div>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <div>{props.state[0].method.twist}</div>
+                                    </TableCell>
+                                </TableBody>
+                            </Table>
+                        </TableContainer>  
+                    </Paper>
                 </Right>
             </Content>   
         </BackGround>
