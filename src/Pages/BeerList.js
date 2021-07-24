@@ -1,9 +1,21 @@
 import React, { useState } from 'react';
 import { Steps } from 'antd';
 import styled from "styled-components";
-import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
+//import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import { connect } from 'react-redux';
 import InfoModal from './infoModal';
+
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+
+
+
 
 const BeerList = (props) => {
     const { Step } = Steps;
@@ -14,79 +26,84 @@ const BeerList = (props) => {
         width: 100%;
         height: 100vh;
     `;
-    const Tables = styled(Table)`
-        margin-top: 100px;
-    `;
     const Img = styled.img`
         width: 50px;
         height: 50px;
     `;
+    const StyledTableCell = withStyles((theme) => ({
+        head: {
+          backgroundColor: theme.palette.common.black,
+          color: theme.palette.common.white,
+        },
+        body: {
+          fontSize: 14,
+        },
+      }))(TableCell);
+      
+      const StyledTableRow = withStyles((theme) => ({
+        root: {
+          '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+          },
+        },
+      }))(TableRow);
+      
+      function createData(id, img_url, name, first_brewed, description) {
+        return { id, img_url, name, first_brewed, description };
+      }
+      
+      const useStyles = makeStyles({
+        table: {
+          minWidth: 700,
+        },
+      });
     const [modal, setModal] = useState(false);
-
-     return (
+    const classes = useStyles();
+    return (
         <ListContainer>
-            <Steps current={1}>
+            <Steps current={1} style={{marginBottom: '80px'}}>
                 <Step title="welcome" />
                 <Step title="Beer List" />
                 <Step title="Shopping Basket" />
             </Steps>
+            <TableContainer component={Paper}>
+                <Table className={classes.table} aria-label="customized table">
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell>No.</StyledTableCell>
+                            <StyledTableCell>Image</StyledTableCell>
+                            <StyledTableCell>Name</StyledTableCell>
+                            <StyledTableCell>First Brewed</StyledTableCell>
+                            <StyledTableCell>Description</StyledTableCell>     
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {props.state.map((a, i) => (
+                        <StyledTableRow key={i}>
+                            <StyledTableCell component="th" scope="row">
+                                {a.id}
+                            </StyledTableCell>
+                            <StyledTableCell><Img src={a.image_url} /></StyledTableCell>
+                            <StyledTableCell>
+                                <span style={{ "cursor": "pointer" }}
+                                    onClick={() => {
+                                        setModal(true)
+                                        props.dispatch({ type: 'OPEN', payload: a.id })
+                                    }}
+                                >{a.name}</span>
+                            </StyledTableCell>
+                            <StyledTableCell>{a.first_brewed}</StyledTableCell>
+                            <StyledTableCell>{a.description}</StyledTableCell>
+                        </StyledTableRow>
+                    ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
             {
                 modal === true
                 ? <InfoModal setModal={ setModal } />
                 : null
-            }
-            <Tables>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>No.</TableCell>
-                        <TableCell>Image</TableCell>
-                        <TableCell>Name</TableCell>
-                        <TableCell>First Brewed</TableCell>
-                        <TableCell>Info</TableCell>
-                    </TableRow>
-                </TableHead>            
-                <TableBody>
-                    {
-                         props.state.map((a, i) => {
-                            return (
-                                <TableRow key={i}>
-                                    <TableCell align="left"> {a.id} </TableCell>
-                                    <TableCell align="left"> <Img src={a.image_url} /> </TableCell>
-                                    <TableCell align="left">
-                                        <span style={{ "cursor": "pointer" }}
-                                            onClick={() => {
-                                                setModal(true)
-                                                props.dispatch({ type: 'OPEN', payload: a.id })
-                                            }}
-                                        >{a.name}</span>
-                                    </TableCell>
-                                    <TableCell align="left"> {a.first_brewed} </TableCell>
-                                    <TableCell align="left">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell align="center">ABV</TableCell>
-                                                <TableCell align="center">IBU</TableCell>
-                                                <TableCell align="center">EBC</TableCell>
-                                                <TableCell align="center">PH</TableCell>
-                                                <TableCell align="center">Attenuation Level</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            <TableRow>
-                                                <TableCell align="center">{a.abv}</TableCell>
-                                                <TableCell align="center">{a.ibu}</TableCell>
-                                                <TableCell align="center">{a.ebc}</TableCell>
-                                                <TableCell align="center">{a.ph}</TableCell>
-                                                <TableCell align="center">{a.attenuation_level}</TableCell>
-                                            </TableRow>
-                                        </TableBody>
-                                    </TableCell>
-                                </TableRow>
-                            )
-                         })
-                     }
-                 </TableBody>
-            </Tables>
+            }          
         </ListContainer>
     );
 };
@@ -100,8 +117,6 @@ function beerProps(state) {
 }
 export default connect(beerProps)(BeerList);
 
-// Create a table for the list of Beers
-// When a beer name is clicked on, a modal should appear
 
 // when a column header is drag and dropped, the new column order should be stored in redux -
 // - so that the order is maintained even when a user moves between / home and / beerlist
