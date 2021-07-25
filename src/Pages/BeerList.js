@@ -68,30 +68,31 @@ const BeerList = (props) => {
     const columns = [
         { no: 'No.', img: 'Image', name: 'Name', first_brewed: 'First Brewed', abv: 'ABV', description: 'Description' }
     ];
-    const options = props.state.map(a => {
-        return a.abv
-    })
-    //console.log(options) // arr
-    const [abvOption, setAbvOption] = useState(options);
-
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (e) => {
         setAnchorEl(e.currentTarget);
     };
+
+    // const options = props.state.map(a => {
+    //     return a.abv
+    // });
+    // const newOptions = new Set(options)
+    // console.log(newOptions)
+    const optionsArr = [3,4,5,6,7,8,9,10,11,12,13,14,55]
+    const [abvOption, setAbvOption] = useState(optionsArr);
     const handleClose = (e) => {
         setAnchorEl(null);
 
         const copyBeer = [...beer];
         const values = e.currentTarget.value;  // 정수로 출력
         const options = copyBeer.filter((a) => {
-
-            return a.abv == values
+            return Math.round(a.abv) == values
         })
         console.log(options)
         setBeer(options)
     };
-//console.log(beer)
+
     return (
         <ListContainer>
             <Steps current={1} style={{marginBottom: '80px'}}>
@@ -128,7 +129,7 @@ const BeerList = (props) => {
                                                             <MenuItem onClick={
                                                                 handleClose
                                                                 //props.dispatch({ type: 'OPTION', payload: {a} })
-                                                            } value={a}>{a}</MenuItem>
+                                                            } value={a}>{Math.round(a)}</MenuItem>
                                                         </div>
                                                     )
                                                 })
