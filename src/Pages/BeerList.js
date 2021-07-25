@@ -18,6 +18,7 @@ import Fade from '@material-ui/core/Fade';
 
 
 const BeerList = (props) => {
+    const [beer, setBeer] = useState(props.state);
     const { Step } = Steps;
     const ListContainer = styled.div`
         margin: 0;
@@ -70,21 +71,27 @@ const BeerList = (props) => {
     const options = props.state.map(a => {
         return a.abv
     })
-    console.log(options) // arr
+    //console.log(options) // arr
     const [abvOption, setAbvOption] = useState(options);
-
-
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (e) => {
         setAnchorEl(e.currentTarget);
     };
-    const handleClose = () => {
+    const handleClose = (e) => {
         setAnchorEl(null);
+
+        const copyBeer = [...beer];
+        const values = e.currentTarget.value;  // 정수로 출력
+        const options = copyBeer.filter((a) => {
+
+            return a.abv == values
+        })
+        console.log(options)
+        setBeer(options)
     };
-
-
+//console.log(beer)
     return (
         <ListContainer>
             <Steps current={1} style={{marginBottom: '80px'}}>
@@ -103,7 +110,7 @@ const BeerList = (props) => {
                                         <StyledTableCell>{a.img}</StyledTableCell>
                                         <StyledTableCell>{a.name}</StyledTableCell>
                                         <StyledTableCell>{a.first_brewed}</StyledTableCell>
-                                        <StyledTableCell className={ classes.tablecell} aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>                                
+                                        <StyledTableCell className={classes.tablecell} aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
                                             {a.abv}
                                         </StyledTableCell>
                                         <Menu
@@ -114,28 +121,27 @@ const BeerList = (props) => {
                                             open={open}
                                             onClose={handleClose}
                                             TransitionComponent={Fade}>
-                                                {
-                                                    abvOption.map((a, i) => {
-                                                        return (
-                                                            <div key={i}>
-                                                                <MenuItem onClick={handleClose
-                                                                // props.dispatch({ type: 'OPTION', payload: {a} })
-                                                            }>{a}</MenuItem>
-                                                            </div>
-                                                        )
-                                                    })
-                                                }
-                                            </Menu>
-                                        
-                                        <StyledTableCell>{a.description}</StyledTableCell>     
+                                            {
+                                                abvOption.map((a, i) => {
+                                                    return (
+                                                        <div key={i}>
+                                                            <MenuItem onClick={
+                                                                handleClose
+                                                                //props.dispatch({ type: 'OPTION', payload: {a} })
+                                                            } value={a}>{a}</MenuItem>
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                        </Menu>
+                                        <StyledTableCell>{a.description}</StyledTableCell>
                                     </TableRow>
-                                )
+                                );
                             })
-                        }
-                        
+                        }   
                     </TableHead>
                     <TableBody>
-                    {props.state.map((a, i) => (
+                    {beer.map((a, i) => (
                         <StyledTableRow key={i}>
                             <StyledTableCell component="th" scope="row">
                                 {a.id}
