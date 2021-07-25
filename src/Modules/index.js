@@ -28,6 +28,8 @@ enableES5();
 
 const initState = [];
 
+
+
 const loadItem = async () => {
   try {
     const res = await axios.get("https://api.punkapi.com/v2/beers");
@@ -41,8 +43,11 @@ loadItem()
 
 function reducer (state = initState, action) {
     switch(action.type) {
-      // case "OPEN": {
-      //   return action.payload;
+      // case "OPTION": {
+      //   const options = initState.findIndex((a) => { return a.abv === action.payload })
+      //   const copy = [...initState];
+      //   copy[options]
+      //   return copy;
       // }
       default:
         return state;
@@ -53,7 +58,6 @@ function reducer2 (state = initState, action) {
   switch(action.type) {
     case "OPEN": {
       const found = initState.findIndex((a) => { return a.id === action.payload })
-      console.log(found)
       if (found >= 0) {
         const setBeer = [...initState];  
         return setBeer[found]

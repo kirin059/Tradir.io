@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import styled from "styled-components";
-//import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
-
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -10,7 +8,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 
 const infoModal = (props) => {
@@ -53,35 +50,8 @@ const infoModal = (props) => {
         height: 150px;
         margin-bottom: 20px;
     `;
-    // const TableHeads = styled(TableHead)`
-    //     color: white;
-    //     background-color: #1890FF;
-    // `;
-
-    // const { id } = useParams();
-    // const beer = props.state.find(function(a) {
-    //     return a.id == id;
-    // });
-    // console.log(beer)
-    // console.log(props.state)
-    // console.log(id)
     const beer = props.beer;
-    console.log(beer)
 
-
-
-    
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
     const useStyles = makeStyles({
         root: {
           width: '100%',
@@ -101,8 +71,6 @@ const infoModal = (props) => {
     });
     const classes = useStyles();
     const class1 = useStyle();
-    
-    
     
     return (
         <BackGround onClick={() => {
@@ -219,7 +187,6 @@ const infoModal = (props) => {
                 </Right>
             </Content>   
         </BackGround>
-
     );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Steps } from 'antd';
 import styled from "styled-components";
 import { connect } from 'react-redux';
@@ -11,6 +11,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Fade from '@material-ui/core/Fade';
+
 
 const BeerList = (props) => {
     const { Step } = Steps;
@@ -33,25 +38,53 @@ const BeerList = (props) => {
         body: {
           fontSize: 14,
         },
-      }))(TableCell);    
-      const StyledTableRow = withStyles((theme) => ({
+    }))(TableCell);    
+    const StyledTableRow = withStyles((theme) => ({
         root: {
           '&:nth-of-type(odd)': {
             backgroundColor: theme.palette.action.hover,
           },
         },
-      }))(TableRow);
-      function createData(id, img_url, name, first_brewed, description) {
-        return { id, img_url, name, first_brewed, description };
-      }   
-      const useStyles = makeStyles({
+    }))(TableRow); 
+    const useStyles = makeStyles({
         table: {
           minWidth: 700,
         },
-      });
+        tablecell: {
+            position: 'relative',
+            color: 'red',
+            cursor: 'pointer'
+        },
+        menu: {
+            position: 'absolute',
+            top: '242px',
+            left: '410px',
+            maxHeight: '300px',
+        },
+    });
     const [modal, setModal] = useState(false);
     const classes = useStyles();
-    
+    const columns = [
+        { no: 'No.', img: 'Image', name: 'Name', first_brewed: 'First Brewed', abv: 'ABV', description: 'Description' }
+    ];
+    const options = props.state.map(a => {
+        return a.abv
+    })
+    console.log(options) // arr
+    const [abvOption, setAbvOption] = useState(options);
+
+
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (e) => {
+        setAnchorEl(e.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+
     return (
         <ListContainer>
             <Steps current={1} style={{marginBottom: '80px'}}>
@@ -62,13 +95,44 @@ const BeerList = (props) => {
             <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="customized table">
                     <TableHead>
-                        <TableRow>
-                            <StyledTableCell>No.</StyledTableCell>
-                            <StyledTableCell>Image</StyledTableCell>
-                            <StyledTableCell>Name</StyledTableCell>
-                            <StyledTableCell>First Brewed</StyledTableCell>
-                            <StyledTableCell>Description</StyledTableCell>     
-                        </TableRow>
+                        {
+                            columns.map((a, i) => {
+                                return (
+                                    <TableRow key={i}>
+                                        <StyledTableCell>{a.no}</StyledTableCell>
+                                        <StyledTableCell>{a.img}</StyledTableCell>
+                                        <StyledTableCell>{a.name}</StyledTableCell>
+                                        <StyledTableCell>{a.first_brewed}</StyledTableCell>
+                                        <StyledTableCell className={ classes.tablecell} aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>                                
+                                            {a.abv}
+                                        </StyledTableCell>
+                                        <Menu
+                                            id="fade-menu"
+                                            className={classes.menu}
+                                            anchorEl={anchorEl}
+                                            keepMounted
+                                            open={open}
+                                            onClose={handleClose}
+                                            TransitionComponent={Fade}>
+                                                {
+                                                    abvOption.map((a, i) => {
+                                                        return (
+                                                            <div key={i}>
+                                                                <MenuItem onClick={handleClose
+                                                                // props.dispatch({ type: 'OPTION', payload: {a} })
+                                                            }>{a}</MenuItem>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </Menu>
+                                        
+                                        <StyledTableCell>{a.description}</StyledTableCell>     
+                                    </TableRow>
+                                )
+                            })
+                        }
+                        
                     </TableHead>
                     <TableBody>
                     {props.state.map((a, i) => (
@@ -86,6 +150,7 @@ const BeerList = (props) => {
                                 >{a.name}</span>
                             </StyledTableCell>
                             <StyledTableCell>{a.first_brewed}</StyledTableCell>
+                            <StyledTableCell>{a.abv}</StyledTableCell>
                             <StyledTableCell>{a.description}</StyledTableCell>
                         </StyledTableRow>
                     ))}
